@@ -1,24 +1,28 @@
-#include <bits/stdc++.h>
-using namespace std; 
-int ret[6], num, lotto[14]; 
+#include <bits/stdc++.h> 
+using namespace std;
 
-void dfs(int depth, int start) {
+int k, s[14], ret[6];
+
+void solve(int depth, int start) {
 	if (depth == 6) {
-		for (int i = 0; i < 6; i++) cout << ret[i] << " ";
+		for (int i : ret) cout << i << " ";
 		cout << "\n";
-		return; 
+		return;
 	}
 
-	for (int i = start; i < num; i++) {
-		ret[depth] = lotto[i]; 
-		dfs(depth + 1, i + 1);
+	for (int i = start; i < k; i++) {
+		ret[depth] = s[i];
+		solve(depth + 1, i+1);
 	}
-};
+}
 
 int main() {
-	while (cin >> num && num) {
-		for (int i = 0; i < num; i++) cin >> lotto[i]; 
-		dfs(0, 0);
+	while (cin >> k && k) {
+		for (int i = 0; i < k; i++) {
+			cin >> s[i];
+		}
+
+		solve(0, 0);
 		cout << "\n";
 	}
 }
