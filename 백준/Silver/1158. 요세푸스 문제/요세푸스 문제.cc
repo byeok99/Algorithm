@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std; 
 
-int n, k, temp;
+int n, k;
 queue<int> q; 
+
 int main() {
 	cin >> n >> k; 
 
@@ -11,14 +12,14 @@ int main() {
 	}
 	cout << "<";
 	while (!q.empty()) {
-		for (int i = 1; i <= k; i++) {
-			temp = q.front(); 
-			q.pop(); 
+		for (int i = 1; i <= k; i++) { 
 			if (i != k) {
-				q.push(temp); 
+				q.push(q.front());
+				q.pop();
 			}
 			else {
-				cout << temp; 
+				cout << q.front();
+				q.pop();
 			}
 		}
 		if (!q.empty()) cout << ", ";
