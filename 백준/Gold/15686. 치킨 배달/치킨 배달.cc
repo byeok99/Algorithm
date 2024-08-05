@@ -1,48 +1,46 @@
-#include <bits/stdc++.h> 
+#include <bits/stdc++.h>
 using namespace std; 
 
-int n, m, result=999999999;
-vector<pair<int, int>> one, two; 
-vector<vector<int>> combiList; 
+int n, m, ret = 987654321, temp;
+vector<pair<int, int>> ch, home; 
+vector<vector<int>> combiList ; 
 
 void combi(int depth, vector<int> v) {
 	if (v.size() == m) {
-		combiList.push_back(v);
+		combiList.emplace_back(v);
 		return; 
 	}
 
-	for (int i = depth+1; i < two.size(); i++) {
+	for (int i = depth + 1; i < ch.size(); i++) {
 		v.push_back(i); 
 		combi(i, v); 
-		v.pop_back(); 
+		v.pop_back();
 	}
-	return; 
 }
+
 int main() {
 	cin >> n >> m; 
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			int a; 
-			cin >> a; 
-			if (a == 1) one.push_back({ i,j });
-			else if (a == 2) two.push_back({ i,j }); 
+			cin >> temp; 
+			if (temp == 1) home.push_back({ i,j });
+			else if (temp == 2) ch.push_back({ i,j }); 
 		}
 	}
-	vector<int> v;
-	combi(-1, v);
-	
-	for (auto cList : combiList) {
-		int ret = 0; 
-		for (auto home : one) {
-			int _min = 999999999;
-			for (auto ch : cList) {
-				int _dist = abs(home.first - two[ch].first) + abs(home.second - two[ch].second);
+
+	combi(-1, vector<int>()); 
+
+	for (vector<int> cbList : combiList) {
+		int sum = 0;
+		for (pair<int, int> h : home) {
+			int _min = 987654321; 
+			for (int i : cbList) {
+				int _dist = abs(h.first - ch[i].first) + abs(h.second - ch[i].second);
 				_min = min(_min, _dist); 
 			}
-			ret += _min; 
+			sum += _min; 
 		}
-		result = min(ret, result); 
+		ret = min(ret, sum); 
 	}
-	cout << result; 
-
+	cout << ret; 
 }
