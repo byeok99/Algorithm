@@ -1,31 +1,32 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h> 
 using namespace std; 
 
-int n;
+int t; 
 int main() {
-	cin >> n;
+	cin >> t; 
 
-	while (n--) {
+	while (t--) {
 		list<char> lis; 
-		list<char>::iterator iter = lis.begin(); 
-		string input;
-		cin >> input; 
-
-		for (auto c : input) {
-			if (c == '-') {
-				if (iter != lis.begin()) iter = lis.erase(--iter); 
-			}
-			else if (c == '<') {
+		list<char>::iterator iter = lis.begin();
+		string s;
+		cin >> s; 
+		
+		for (char c : s) {
+			if (c == '<') {
 				if (iter != lis.begin()) iter--; 
 			}
 			else if (c == '>') {
 				if (iter != lis.end()) iter++; 
 			}
+			else if (c == '-') {
+				if (iter != lis.begin()) iter = lis.erase(--iter);
+			}
 			else {
-				lis.insert(iter, c);
+				lis.insert(iter, c); 
 			}
 		}
-		for (auto a : lis) cout << a;
-		cout << '\n';
+
+		for (char c : lis) cout << c;
+		cout << "\n";
 	}
 }
