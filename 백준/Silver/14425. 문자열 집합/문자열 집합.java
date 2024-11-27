@@ -1,20 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class Main {
-    public static int solve(String[] Strings, int m, BufferedReader br) throws IOException {
+    public static int solve(HashMap<String, Integer> map, int m, BufferedReader br) throws IOException {
         int ret=0;
 
         for (int i=0; i <m; i++) {
             String s = br.readLine();
-
-            for (String str : Strings) {
-                if (str.equals(s)) {
-                    ret++;
-                    break;
-                }
-            }
+            if (map.containsKey(s)) ret++;
         }
 
         return ret;
@@ -26,11 +21,11 @@ public class Main {
         int n = Integer.parseInt(str[0]);
         int m = Integer.parseInt(str[1]);
 
-        String[] Strings = new String[n];
+        HashMap<String, Integer> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            Strings[i] = br.readLine();
+            map.put(br.readLine(), 0);
         }
 
-        System.out.println(solve(Strings, m, br));
+        System.out.println(solve(map, m, br));
     }
 }
