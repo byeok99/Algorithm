@@ -7,15 +7,9 @@ def solve(lst:list, start:int, end:int, value:int):
 
 if __name__ == '__main__':
     a,b = map(int, input().split())
-
-    a_ = list(map(int, input().split()))
-    b_ = list(map(int, input().split()))
-    a_ = sorted(a_)
-    b_ = sorted(b_)
-    rets = list()
-    for k in a_:
-        if not solve(b_, 0, len(b_) - 1, k):
-            rets.append(k)
+    a_, b_ = list(map(int, input().split())), list(map(int, input().split()))
+    a_, b_ = sorted(a_), sorted(b_)
+    rets = [k for k in a_ if not solve(b_, 0, len(b_)-1, k)]
 
     print(len(rets))
     print(*rets)
