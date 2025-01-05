@@ -1,13 +1,9 @@
 def go(n):
-    d = [0] * 11 
-    d[1] = 1
-    d[2] = 2
-    d[3] = 4
-    if n < 4 : return d[n]
-    for i in range(4, n+1):
-        d[i] = d[i-1] + d[i-2] + d[i-3]
+    if n == 1: return 1
+    if n == 2: return 2
+    if n == 3: return 4
 
-    return d[n]
+    return go(n-1) + go(n-2) + go(n-3)
 
 if __name__ == "__main__":
     t = int(input())
