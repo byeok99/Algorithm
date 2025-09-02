@@ -1,9 +1,13 @@
+import heapq
+
 n, m = map(int, input().split())
 nums = list(map(int, input().split()))
+heapq.heapify(nums)
 
-for i in range(m):
-    nums.sort()
-    nums[0] = nums[0] + nums[1]
-    nums[1] = nums[0]
+for _ in range(m):
+    num1 = heapq.heappop(nums)
+    num2 = heapq.heappop(nums)
+    heapq.heappush(nums, num1 + num2)
+    heapq.heappush(nums, num1 + num2)
 
 print(sum(nums))
