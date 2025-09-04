@@ -4,7 +4,7 @@ n, c = map(int, input().split())
 m = int(input())
 
 boxs = [tuple(map(int, input().split())) for _ in range(m)]
-boxs.sort(key=lambda x: (x[0], x[1], x[2]))
+boxs.sort(key=lambda x: (x[1]))
 truck = [c] * (n+1)
 ret = 0
 
