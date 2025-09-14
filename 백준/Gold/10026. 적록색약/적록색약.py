@@ -1,22 +1,22 @@
-import sys, copy
+import sys
 input = sys.stdin.readline
 sys.setrecursionlimit(10**6)
 
 dy = [0, -1, 0, 1]
 dx = [1, 0, -1, 0]
 
-def dfs(y, x):
+def dfs(y, x, color):
     visited[y][x] = True
 
     for i in range(4):
         ny = y + dy[i]
         nx = x + dx[i]
 
-        if 0 <= ny < n and 0 <= nx < n and not visited[ny][nx] and graph[ny][nx] == prev:
-            dfs(ny, nx)
+        if 0 <= ny < n and 0 <= nx < n and not visited[ny][nx] and graph[ny][nx] == color:
+            dfs(ny, nx, color)
 
 n = int(input())
-graph = [list(map(str, input().strip())) for _ in range(n)]
+graph = [list(input().strip()) for _ in range(n)]
 
 for _ in range(2):
     visited = [[False] * n for _ in range(n)]
@@ -25,8 +25,7 @@ for _ in range(2):
     for i in range(n):
         for j in range(n):
             if not visited[i][j]:
-                prev = graph[i][j]
-                dfs(i, j)
+                dfs(i, j, graph[i][j])
                 ret += 1
 
     for i in range(n):
