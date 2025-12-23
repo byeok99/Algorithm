@@ -1,26 +1,20 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h> 
 using namespace std; 
-typedef long long ll; 
 
+long long go(int a, int b, int c) { 
+    if (b == 1) return a % c;
 
-ll t(ll a, ll n, ll c) { 
-    ll ret = 1; 
-    while (n > 0) {
-        // 홀수면
-        if(n%2 == 1) {
-            ret = (ret * a) % c;
-            n -= 1;
-        }
-
-        a = (a * a) % c;
-        n = n/2; 
-    }
-
-    return ret; 
+    long long ret = go(a, b/2, c); 
+    ret = (ret * ret) % c;
+    
+    if (b % 2) ret = (ret * a) % c; 
+    return ret;
 }
 
-ll a, b, c, ret; 
 int main() { 
-    cin >> a >> b >> c; 
-    cout << t(a, b, c);  
+    int a, b, c; 
+    cin >> a >> b >> c;
+
+    cout << go(a, b, c); 
+    return 0; 
 }
