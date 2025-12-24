@@ -1,32 +1,42 @@
-#include <bits/stdc++.h>
-using namespace std;
+// 2718
+#include<bits/stdc++.h>
+using namespace std; 
 
-int dy[] = {-1, 0, 1, 0};
-int dx[] = {0, 1, 0, -1};
-int n, m, x, y, a[104][104], visited[104][104];
-int main()
-{
-    scanf("%d %d", &n, &m); 
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < m; j++){
-            scanf("%1d", &a[i][j]);
-        }
-    } 
-    queue<pair<int, int>> q;    
-    q.push({0, 0});
-    visited[0][0] = 1; 
-    while (q.size())
-    {
-        tie(y, x) = q.front(); q.pop(); 
-        for (int i = 0; i < 4; i++)
-        {
+int main() { 
+    int n, m; 
+    int _map[101][101];
+    int visited[101][101] = {{0}}; 
+    int dy[] = {0, -1, 0, 1}; 
+    int dx[] = {-1, 0, 1, 0}; 
+
+    cin >> n >> m; 
+
+    for(int i=0; i<n; i++) {
+        string line; 
+        cin >> line;
+
+        for(int j=0; j<m; j++) _map[i][j] = line[j] - '0';
+    }
+
+    queue<pair<int,int>> q; 
+    q.push({0,0});
+
+    while (!q.empty()) { 
+        pair<int, int> p = q.front(); q.pop(); 
+        int x = p.second;
+        int y = p.first;
+
+        for (int i=0; i<4; i++) { 
+            int ny = y + dy[i]; 
             int nx = x + dx[i];
-            int ny = y + dy[i];
-            if (nx < 0 || nx >= m || ny < 0 || ny >= n || a[ny][nx] == 0) continue;
-            if (visited[ny][nx]) continue;
+
+            if (ny < 0 || nx < 0 || ny >= n || nx >= m || _map[ny][nx] == 0 || visited[ny][nx] > 1) continue; 
             visited[ny][nx] = visited[y][x] + 1;
-            q.push({ny, nx});
+            q.push({ny,nx});
         }
     }
-    printf("%d", visited[n - 1][m - 1]); 
+
+    cout << visited[n-1][m-1] + 1;
+
+    return 0;
 }
