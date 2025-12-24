@@ -1,9 +1,8 @@
-// 2718
 #include<bits/stdc++.h>
 using namespace std; 
 
 int main() { 
-    int n, m; 
+    int n, m, y, x; 
     int _map[101][101];
     int visited[101][101] = {{0}}; 
     int dy[] = {0, -1, 0, 1}; 
@@ -21,10 +20,9 @@ int main() {
     queue<pair<int,int>> q; 
     q.push({0,0});
 
-    while (!q.empty()) { 
-        pair<int, int> p = q.front(); q.pop(); 
-        int x = p.second;
-        int y = p.first;
+    while (!q.empty()) {
+        tie(y, x) = q.front(); 
+        q.pop(); 
 
         for (int i=0; i<4; i++) { 
             int ny = y + dy[i]; 
