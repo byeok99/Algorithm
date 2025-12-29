@@ -13,22 +13,14 @@ int main()
 
     for (int i = 0; i < h; i++)
     {
+        int cnt = 0;
         cin >> s;
         for (int j = 0; j < w; j++)
         {
             _mp[i][j] = s[j];
-        }
-    }
-
-    for (int i = 0; i < h; i++)
-    {
-        int cnt = 0;
-        for (int j = 0; j < w; j++)
-        {
-            int it = _mp[i][j];
 
             ret[i][j] = -1;
-            if (it == 'c')
+            if (s[j] == 'c')
             {
                 ret[i][j] = 0;
                 cnt = 1;
