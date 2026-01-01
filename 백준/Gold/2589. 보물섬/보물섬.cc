@@ -1,51 +1,58 @@
-#include <bits/stdc++.h> 
-using namespace std; 
+#include <bits/stdc++.h>
+using namespace std;
 
-int n, m, _ret; 
-int _map[50][50], visited[50][50];
-const int dy[] = { -1, 0, 1, 0 };
-const int dx[] = { 0, 1, 0, -1 };
+int dy[4] = {0, -1, 0, 1};
+int dx[4] = {1, 0, -1, 0};
 
-void bfs(int y, int x) {
-	queue <pair<int, int>> q;
-	memset(visited, 0, sizeof(visited));
-	q.push({ x, y });
-	visited[y][x] = 1; 
-	while (q.size()) {
-		tie(x, y) = q.front(); q.pop(); 
+int n, m, arr[54][54], visited[54][54], _max;
+vector<pair<int, int>> lList;
 
-		for (int i = 0; i < 4; i++) {
-			int nx = dx[i] + x;
-			int ny = dy[i] + y;
+void bfs(int y, int x)
+{
+    queue<pair<int, int>> que;
+    que.push({y, x});
+    visited[y][x] = 1;
+    while (que.size())
+    {
+        int y, x;
+        tie(y, x) = que.front();
+        que.pop();
+        for (int i = 0; i < 4; i++)
+        {
+            int ny = y + dy[i];
+            int nx = x + dx[i];
 
-			if (nx >= m || ny >= n || nx < 0 || ny < 0) continue;
-			if (visited[ny][nx]) continue;
-			if (_map[ny][nx] == 0) continue; 
-			visited[ny][nx] = visited[y][x] + 1;
-			q.push({ nx, ny });
-			_ret = max(_ret, visited[ny][nx]);
-		}
-	}
+            if (ny < 0 || nx < 0 || ny >= n || nx >= m || visited[ny][nx] != 0 || arr[ny][nx] != 'L')
+                continue;
+
+            visited[ny][nx] = visited[y][x] + 1;
+            _max = max(_max, visited[ny][nx]);
+            que.push({ny, nx});
+        }
+    }
 }
 
-int main() {
-	cin >> n >> m; 
+int main()
+{
+    cin >> n >> m;
 
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			char ch; 
-			cin >> ch; 
-			if (ch == 'L') _map[i][j] = 1;
-			else _map[i][j] = 0; 
-		}
-	}
+    for (int i = 0; i < n; i++)
+    {
+        string s;
+        cin >> s;
 
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			if (_map[i][j] == 1) {
-				bfs(i,j);
-			}
-		}
-	}
-	cout << _ret-1; 
+        for (int j = 0; j < m; j++)
+        {
+            arr[i][j] = s[j];
+            if (s[j] == 'L')
+                lList.push_back({i, j});
+        }
+    }
+
+    for (auto l : lList)
+    {
+        fill(&visited[0][0], &visited[0][0] + 54 * 54, 0);
+        bfs(l.first, l.second);
+    }
+    cout << _max - 1;
 }
