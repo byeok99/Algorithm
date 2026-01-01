@@ -1,26 +1,19 @@
-// 50 * 50 * 13
 #include <bits/stdc++.h>
 using namespace std;
 
 int n, m, _map[54][54], ret = INT_MAX;
-vector<pair<int, int>> ck_list, h_list;
+vector<pair<int, int>> stores, homes;
+vector<vector<int>> chickenList;
 
-// void print(vector<int> b)
-// {
-//     for (int i : b)
-//         cout << i << " ";
-//     cout << "\n";
-// }
-
-int calcualte(vector<int> b)
+int solve(vector<int> b)
 {
     int cnt = 0;
-    for (auto home : h_list)
+    for (auto home : homes)
     {
         int _min = INT_MAX;
         for (int i : b)
         {
-            auto store = ck_list[i];
+            auto store = stores[i];
             _min = min(abs(home.first - store.first) + abs(home.second - store.second), _min);
         }
         cnt += _min;
@@ -32,11 +25,11 @@ void combi(int start, vector<int> &b)
 {
     if (b.size() == m)
     {
-        ret = min(calcualte(b), ret);
+        chickenList.push_back(b);
         return;
     }
 
-    for (int i = start + 1; i < ck_list.size(); i++)
+    for (int i = start + 1; i < stores.size(); i++)
     {
         b.push_back(i);
         combi(i, b);
@@ -53,15 +46,21 @@ int main()
     {
         for (int j = 1; j <= n; j++)
         {
-            cin >> _map[i][j];
-            if (_map[i][j] == 2)
-                ck_list.push_back({i, j});
-            else if (_map[i][j] == 1)
-                h_list.push_back({i, j});
+            int posi;
+            cin >> posi;
+            if (posi == 2)
+                stores.push_back({i, j});
+            else if (posi == 1)
+                homes.push_back({i, j});
         }
     }
 
     vector<int> b;
     combi(-1, b);
+
+    for (auto i : chickenList)
+    {
+        ret = min(solve(i), ret);
+    }
     cout << ret;
 }
