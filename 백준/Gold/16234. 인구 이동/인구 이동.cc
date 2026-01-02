@@ -1,58 +1,74 @@
 #include <bits/stdc++.h>
-using namespace std; 
+using namespace std;
 
-int dy[] = { 0,1, 0, -1 }; 
-int dx[] = { 1, 0, -1, 0 }; 
-int n, l, r, total, ret; 
-int _map[50][50], visited[50][50]; 
-vector<pair<int, int>> v; 
+int n, l, r, arr[54][54], ret, unionSum;
+bool v[54][54], moved;
+vector<pair<int, int>> unionList;
+int dy[] = {0, 1, 0, -1};
+int dx[] = {1, 0, -1, 0};
 
-void dfs(int y, int x, vector<pair<int,int>> &v) {
-	for (int i = 0; i < 4; i++) {
-		int ny = y + dy[i]; 
-		int nx = x + dx[i]; 
+void dfs(int y, int x)
+{
+    v[y][x] = true;
+    unionList.push_back({y, x});
+    unionSum += arr[y][x];
 
-		if (ny >= n || nx >= n || ny < 0 || nx < 0) continue; 
-		if (visited[ny][nx]) continue; 
-		if (abs(_map[ny][nx] - _map[y][x]) >= l && abs(_map[ny][nx] - _map[y][x]) <= r) {
-			v.push_back({ ny,nx }); 
-			visited[ny][nx] = 1;
-			total += _map[ny][nx]; 
-			dfs(ny, nx, v); 
-		}
-	}
+    for (int i = 0; i < 4; i++)
+    {
+        int ny = y + dy[i];
+        int nx = x + dx[i];
+        int val = abs(arr[ny][nx] - arr[y][x]);
+        if (ny < 0 || nx < 0 || ny >= n || nx >= n || v[ny][nx])
+            continue;
+        if (val >= l && val <= r)
+        {
+            dfs(ny, nx);
+        }
+    }
 }
 
-int main() {
-	cin >> n >> l >> r; 
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cin >> _map[i][j]; 
-		}
-	}
+int main()
+{
+    cin >> n >> l >> r;
 
-	while(true) {
-		bool flag = 0; 
-		fill(&visited[0][0], &visited[0][0] + 50 * 50, 0); 
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				if(!visited[i][j]) {
-					v.clear();
-					visited[i][j] = 1;
-					v.push_back({ i,j }); 
-					total = _map[i][j]; 
-					dfs(i, j, v);  
-					if (v.size() == 1) continue; 
-					for (pair<int, int> e : v) {
-						_map[e.first][e.second] = total / v.size(); 
-						flag = 1; 
-					}
-				}
-			}
-		}
-		if (!flag) break; 
-		ret++;
-	}
-	cout << ret;
-	return 0; 
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cin >> arr[i][j];
+        }
+    }
+
+    while (true)
+    {
+        fill(&v[0][0], &v[0][0] + 54 * 54, false);
+        moved = false;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (!v[i][j])
+                {
+                    unionList.clear();
+                    unionSum = 0;
+                    dfs(i, j);
+
+                    if (unionList.size() > 1)
+                    {
+                        moved = true;
+                        for (auto e : unionList)
+                        {
+                            arr[e.first][e.second] = unionSum / unionList.size();
+                        }
+                    }
+                }
+            }
+        }
+        if (!moved)
+            break;
+
+        ret++;
+    }
+
+    cout << ret << "\n";
 }
