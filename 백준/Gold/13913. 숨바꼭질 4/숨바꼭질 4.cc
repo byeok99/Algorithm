@@ -1,39 +1,53 @@
-#include <bits/stdc++.h> 
-using namespace std; 
+#include <bits/stdc++.h>
+using namespace std;
 
-const int MAX = 200000; 
-int visited[MAX + 4], _prev[MAX+ 4]; 
-int n, k;
-vector<int> ret; 
+const int MAX = 200000;
+int n, k, visited[MAX + 4];
+int path[MAX + 4];
+vector<int> v;
 
-int main() {
-	cin >> n >> k;
+int main()
+{
+    cin >> n >> k;
+    if (n == k)
+    {
+        cout << 0 << "\n";
+        cout << n << "\n";
+        return 0;
+    }
 
-	visited[n] = 1; 
-	queue<int> q; 
-	q.push(n); 
+    queue<int> q;
+    q.push(n);
+    visited[n] = 1;
 
-	while (q.size()) {
-		int now = q.front();
-		q.pop();
-		if (now == k) {
-			break;
-		}
+    while (q.size())
+    {
+        int now = q.front();
+        q.pop();
 
-		for (int next : {now - 1, now + 1, now * 2}) {
-			if (next >= MAX + 4 || next < 0 || visited[next]) continue;
-			q.push(next);
-			visited[next] = visited[now] + 1;
-			_prev[next] = now;
-		}
-	}
+        for (int next : {now - 1, now + 1, now * 2})
+        {
+            if (next >= 0 && next <= MAX)
+            {
+                if (!visited[next])
+                {
+                    visited[next] = visited[now] + 1;
+                    path[next] = now;
+                    q.push(next);
+                }
+            }
+        }
+    }
 
-	for (int i = k; i != n; i = _prev[i]) {
-		ret.push_back(i);
-	}
-	ret.push_back(n);
-	reverse(ret.begin(), ret.end());
+    for (int i = k; i != n; i = path[i])
+    {
+        v.push_back(i);
+    }
+    v.push_back(n);
 
-	cout << visited[k] - 1 << "\n";
-	for (int i : ret) cout << i << " ";
+    reverse(v.begin(), v.end());
+
+    cout << visited[k] - 1 << "\n";
+    for (auto i : v)
+        cout << i << " ";
 }
