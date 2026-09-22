@@ -1,37 +1,36 @@
 import java.util.*;
 
 class Solution {
-    static int[] parent;
+    static int[] parent; 
     
     public int solution(int n, int[][] costs) {
         parent = new int[n];
+        
         for(int i=0; i<n; i++) parent[i] = i;
         
         Arrays.sort(costs, (a, b) -> Integer.compare(a[2], b[2]));
         
         int answer = 0;
         int cnt = 0;
-        
-        for(int[] e : costs) {
-            int from = e[0];
-            int to = e[1];
-            int cost = e[2];
+        for(int[] edge : costs) {
+            if (cnt == n-1) break;
+            int to = edge[0];
+            int from = edge[1];
+            int cost = edge[2];
             
-            if (find(from) == find(to)) continue;
+            if (find(to) == find(from)) continue;
             
-            union(from, to);
+            union(to, from);
             
             answer += cost;
-            cnt += 1;
-            
-            if (cnt == n-1) break;   
+            cnt++;
         }
         
         return answer;
     }
     
     static int find(int x) {
-        if (x == parent[x]) return x;
+        if (parent[x] == x) return x;
         return parent[x] = find(parent[x]);
     }
     
@@ -39,6 +38,8 @@ class Solution {
         int rootA = find(a);
         int rootB = find(b);
         
-        if (rootA != rootB) parent[rootB] = rootA;
+        if (rootA == rootB) return;
+        
+        parent[rootB] = rootA;
     }
 }
